@@ -177,7 +177,7 @@ class Carrera(Base):
 #
 
 
-base_general = "Ejercicio_1"
+base_general = "ispc_db"
 engine_mysql = crear_conexion(
     os.getenv('DIALECT'), os.getenv('USER'), os.getenv('PASSWORD'), os.getenv('HOST'), base_general)
 
@@ -283,24 +283,26 @@ engine_mysql.dispose()
 #
 
 
+# QUERYS
+
 ###
-persona = session_mysql.query(Persona).join(TipoPersona).join(Genero).filter(
-    and_(TipoPersona.nombre == "Alumno", Genero.nombre == "Female")).first()
+# persona = session_mysql.query(Persona).join(TipoPersona).join(Genero).filter(
+#     and_(TipoPersona.nombre == "Alumno", Genero.nombre == "Female")).first()
 
-persona.__dict__
+# persona.__dict__
 
-tipo = session_mysql.query(TipoPersona).filter(
-    TipoPersona.nombre == 'Alumno').first()
-alumnos = session_mysql.query(Persona).join(TipoPersona).join(
-    Genero).filter(and_(Persona.age < 40, Persona.tipopersona == tipo)).all()
+# tipo = session_mysql.query(TipoPersona).filter(
+#     TipoPersona.nombre == 'Alumno').first()
+# alumnos = session_mysql.query(Persona).join(TipoPersona).join(
+#     Genero).filter(and_(Persona.age < 40, Persona.tipopersona == tipo)).all()
 
-for cadaUno in alumnos:
-    print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
-          cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
+# for cadaUno in alumnos:
+#     print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
+#           cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
 
 
-todos = session_mysql.query(Persona).join(
-    TipoPersona).join(Genero).filter(Persona.age > 40).all()
-for cadaUno in todos:
-    print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
-          cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
+# todos = session_mysql.query(Persona).join(
+#     TipoPersona).join(Genero).filter(Persona.age > 40).all()
+# for cadaUno in todos:
+#     print(cadaUno.nombre, cadaUno.apellido, cadaUno.email, cadaUno.genero.nombre, cadaUno.birthdate, cadaUno.lugar.pais.nombre, cadaUno.personal_id,
+#           cadaUno.lugar.ciudad.nombre, cadaUno.lugar.barrio.nombre, cadaUno.lugar.provincia.nombre, cadaUno.tipopersona.nombre, cadaUno.age)
