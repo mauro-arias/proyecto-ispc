@@ -15,11 +15,9 @@ class Persona(Base):
     personal_id = Column(String(50), unique=True)
     genero_id = Column(Integer, ForeignKey("generos.id"))
     lugar_id = Column(Integer, ForeignKey("lugares.id"))
-    tipo_id = Column(Integer, ForeignKey("tipos_persona.id"))
 
     genero = relationship("Genero", backref="related_generos")
     lugar = relationship("Lugar", backref="related_lugares")
-    tipopersona = relationship("TipoPersona", backref="related_tipos_persona")
 
     @hybrid_property
     def age(self):

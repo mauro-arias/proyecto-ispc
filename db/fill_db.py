@@ -3,7 +3,7 @@ import os
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import and_
 from dotenv import load_dotenv
-from db.db import crear_conexion, obtener_session
+from db.db import crear_conexion, obtener_session, bind_engine
 from db.entities.Pais import Pais
 from db.entities.Ciudad import Ciudad
 from db.entities.Barrio import Barrio
@@ -97,14 +97,17 @@ def fill_db():
             persona = session_mysql.query(Persona).filter(
                 Persona.personal_id == fila['personal_id']).first()
             if persona == None:
-                persona = Persona(nombre=fila['first_name'], apellido=fila['last_name'], email=fila['email'], birthdate=fila['birthdate'], personal_id=fila['personal_id'],
-                                  tipopersona=tipopersona, lugar=lugar, genero=genero)
+                persona = Persona(nombre=fila['first_name'], apellido=fila['last_name'], email=fila['email'],
+                                  birthdate=fila['birthdate'], personal_id=fila['personal_id'], lugar=lugar, genero=genero)
                 session_mysql.add(persona)
+                # Saque tipo persona de Persona, se debe agregar en personas_titulaciones
 
             session_mysql.commit()
-        except:
+        except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
-
+    #         errores = []
+    #         errores.append(e)
+    # print(errores)
     session_mysql.close()
     engine_mysql.dispose()
