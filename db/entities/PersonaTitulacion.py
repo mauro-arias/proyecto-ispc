@@ -6,7 +6,6 @@ from db.db import Base
 
 class PersonaTitulacion(Base):
     __tablename__ = "personas_titulaciones"
-    __table_args__ = (UniqueConstraint('estado_id', name='uix_table_estado'),)
     id = Column(Integer, primary_key=True)
     persona_id = Column(Integer, ForeignKey("personas.id"))
     titulacion_id = Column(Integer, ForeignKey("titulaciones.id"))

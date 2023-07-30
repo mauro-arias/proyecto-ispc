@@ -13,6 +13,11 @@ from db.entities.TipoPersona import TipoPersona
 from db.entities.Persona import Persona
 from db.entities.Genero import Genero
 from db.entities.Estado import Estado
+from db.entities.Universidad import Universidad
+from db.entities.Carrera import Carrera
+from db.entities.Campus import Campus
+from db.entities.Titulacion import Titulacion
+from db.entities.Facultad import Facultad
 
 
 def fill_db():
@@ -31,16 +36,21 @@ def fill_db():
     alumnosDF["tipopersona"] = "alumno"
 
     cursos_profesoresDF = pd.read_csv("raw_data/cursos_profesores.csv")
+    cursos_profesoresDF['estado_id'] = 1
 
     ###
 
     personasDF = pd.concat([profesoresDF, alumnosDF])
 
     lista_personas = []
+    lista_cursos = []
     lista_errores = []
 
     for index, fila in personasDF.iterrows():
         lista_personas.append({**fila})
+
+    for index, fila in cursos_profesoresDF.iterrows():
+        lista_cursos.append({**fila})
 
     ##########
 
@@ -48,10 +58,32 @@ def fill_db():
     session_mysql.begin()
     estados = ['Activo', 'Inactivo']
     for estado in estados:
-        session_mysql.add(Estado(nombre=estado))
+        try:
+            estado_db = session_mysql.query(Estado).filter(
+                Estado.nombre == estado).first()
+            if estado_db == None:
+                estado_db = Estado(nombre=estado)
+                session_mysql.add(estado_db)
+        except Exception as e:
+            session_mysql.rollback()
     session_mysql.commit()
     session_mysql.close()
 
+    # Llenado de datos de carreras, titulaciones, campus, etc... DF de cursos_profesores.csv
+    for fila in lista_cursos:
+        session_mysql.begin()
+        try:
+            campus = session_mysql.query(Campus).filter(
+                Campus.nombre == fila['campus']).first()
+            if campus == None:
+                campus = Campus(nombre=fila['campus'],
+                                estado_id=fila['estado_id'])
+                session_mysql.add(campus)
+            session_mysql.commit()
+        except Exception as e:
+            session_mysql.rollback()
+            lista_errores.append(fila)
+    print(lista_errores)
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
 
     for fila in lista_personas:

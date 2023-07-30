@@ -7,7 +7,7 @@ from datetime import datetime
 class Titulacion(Base):
     __tablename__ = "titulaciones"
     __table_args__ = (UniqueConstraint('carrera_id', 'facultad_id', 'universidad_id',
-                      'campus_id', 'estado_id', name='uix_table_carrera_facultad_universidad_campus_estado'),)
+                      'campus_id', name='uix_table_carrera_facultad_universidad_campus_estado'),)
     id = Column(Integer, primary_key=True)
     carrera_id = Column(Integer, ForeignKey("carreras.id"))
     facultad_id = Column(Integer, ForeignKey("facultades.id"))

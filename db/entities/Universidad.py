@@ -6,7 +6,6 @@ from datetime import datetime
 
 class Universidad(Base):
     __tablename__ = "universidades"
-    __table_args__ = (UniqueConstraint('estado_id', name='uix_table_estado'),)
     id = Column(Integer, primary_key=True)
     nombre = Column(String(100), unique=True)
     fecha_alta = Column(DateTime, default=datetime.now)

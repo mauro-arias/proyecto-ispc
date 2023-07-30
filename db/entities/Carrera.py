@@ -6,7 +6,6 @@ from datetime import datetime
 
 class Carrera(Base):
     __tablename__ = "carreras"
-    __table_args__ = (UniqueConstraint('estado_id', name='uix_table_estado'),)
     id = Column(Integer, primary_key=True)
     nombre = Column(String(100), unique=True)
     estado_id = Column(Integer, ForeignKey("estados.id"))
