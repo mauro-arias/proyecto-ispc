@@ -13,6 +13,7 @@ class PersonaTitulacion(Base):
     fecha_alta = Column(DateTime, default=datetime.now)
     fecha_modificacion = Column(
         DateTime, default=datetime.now, onupdate=datetime.now)
+    fecha_baja = Column(DateTime, nullable=True)
 
     persona = relationship("Persona", backref="related_personas")
     titulacion = relationship("Titulacion", backref="related_titulaciones")

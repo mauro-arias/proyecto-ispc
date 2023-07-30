@@ -11,3 +11,4 @@ class Carrera(Base):
     fecha_alta = Column(DateTime, default=datetime.now)
     fecha_modificacion = Column(
         DateTime, default=datetime.now, onupdate=datetime.now)
+    fecha_baja = Column(DateTime, nullable=True)
