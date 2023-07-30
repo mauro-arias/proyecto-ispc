@@ -1,6 +1,7 @@
-from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, String, Integer, UniqueConstraint, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, UniqueConstraint, ForeignKey, DateTime
 from db.db import Base
+from datetime import datetime
 
 
 class Titulacion(Base):
@@ -12,6 +13,9 @@ class Titulacion(Base):
     facultad_id = Column(Integer, ForeignKey("facultades.id"))
     universidad_id = Column(Integer, ForeignKey("universidades.id"))
     campus_id = Column(Integer, ForeignKey("campus.id"))
+    fecha_alta = Column(DateTime, default=datetime.now)
+    fecha_modificacion = Column(
+        DateTime, default=datetime.now, onupdate=datetime.now)
 
     carrera = relationship("Carrera", backref="related_carreras")
     facultad = relationship("Facultad", backref="related_facultades")

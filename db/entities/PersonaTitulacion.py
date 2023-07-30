@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import date
+from datetime import datetime
 from db.db import Base
 
 
@@ -10,6 +10,9 @@ class PersonaTitulacion(Base):
     persona_id = Column(Integer, ForeignKey("personas.id"))
     titulacion_id = Column(Integer, ForeignKey("titulaciones.id"))
     tipo_id = Column(Integer, ForeignKey("tipos_persona.id"))
+    fecha_alta = Column(DateTime, default=datetime.now)
+    fecha_modificacion = Column(
+        DateTime, default=datetime.now, onupdate=datetime.now)
 
     persona = relationship("Persona", backref="related_personas")
     titulacion = relationship("Titulacion", backref="related_titulaciones")
