@@ -12,6 +12,7 @@ from db.entities.Provincia import Provincia
 from db.entities.TipoPersona import TipoPersona
 from db.entities.Persona import Persona
 from db.entities.Genero import Genero
+from db.entities.Estado import Estado
 
 
 def fill_db():
@@ -42,6 +43,14 @@ def fill_db():
         lista_personas.append({**fila})
 
     ##########
+
+    # Llenar tabla estados
+    session_mysql.begin()
+    estados = ['Activo', 'Inactivo']
+    for estado in estados:
+        session_mysql.add(Estado(nombre=estado))
+    session_mysql.commit()
+    session_mysql.close()
 
     # Nuevo dataframe desde la unión de los DF de profesores y alumnos
 
