@@ -73,13 +73,23 @@ def fill_db():
     for fila in lista_cursos:
         session_mysql.begin()
         try:
+            # Campus
             campus = session_mysql.query(Campus).filter(
                 Campus.nombre == fila['campus']).first()
             if campus == None:
                 campus = Campus(nombre=fila['campus'],
                                 estado_id=fila['estado_id'])
                 session_mysql.add(campus)
+
+            # Facultades
+            facultad = session_mysql.query(Facultad).filter(
+                Facultad.nombre == fila['institute']).first()
+            if facultad == None:
+                facultad = Facultad(nombre=fila['institute'],
+                                    estado_id=fila['estado_id'])
+                session_mysql.add(facultad)
             session_mysql.commit()
+            # Universidades... Carreras.. Titulaciones
         except Exception as e:
             session_mysql.rollback()
             lista_errores.append(fila)
